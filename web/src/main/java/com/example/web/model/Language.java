@@ -22,7 +22,9 @@ public class Language {
     private String code;
     private String nativeName;
 
-    @ManyToMany(mappedBy = "languages")
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST},
+            mappedBy = "languages")
     private List<Book> books = new ArrayList<>();
 
 }

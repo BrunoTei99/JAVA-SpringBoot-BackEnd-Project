@@ -27,7 +27,9 @@ public class Book {
     private Boolean avaiability;
     private Integer stockAvaiable;
 
-    @ManyToMany
+    @ManyToMany(
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "book_author",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -35,7 +37,9 @@ public class Book {
     private List<Author> authors = new ArrayList<>();
 
 
-    @ManyToMany
+    @ManyToMany(
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "book_language",
             joinColumns = @JoinColumn(name = "book_id"),
