@@ -2,14 +2,17 @@ package com.example.web.mappers;
 
 import com.example.web.model.Author;
 import com.example.web.model.dto.AuthorDto;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
-@Mapper
+
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+
 public interface AuthorMapper {
 
-    AuthorMapper INSTANCE = Mappers.getMapper(AuthorMapper.class);
 
     AuthorDto authorToAuthorDto(Author author);
 

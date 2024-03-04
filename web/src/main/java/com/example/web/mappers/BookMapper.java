@@ -3,17 +3,21 @@ package com.example.web.mappers;
 
 import com.example.web.model.Book;
 import com.example.web.model.dto.BookDto;
+import java.util.List;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 
-@Mapper
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface BookMapper {
 
-    BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
+    BookDto bookModelToBookDto(Book book);
 
-    BookDto bookToBookDto(Book book);
+    Book bookDtoToBookModel(BookDto bookDto);
 
-    Book bookDtoToBook(BookDto bookDto);
+    List<BookDto> booksModelToBooksDto (List<Book> books);
+
+    List<Book> booksDtoToBookModel(List<BookDto> booksDto);
+
 }

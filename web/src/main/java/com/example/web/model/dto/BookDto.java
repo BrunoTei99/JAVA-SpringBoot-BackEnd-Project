@@ -12,12 +12,12 @@ import java.util.List;
 public class BookDto {
 
     private Long id;
-    private String title;
+    private String tittle;
     private String isbn;
     private String publisher;
     private BigDecimal price;
-    private Boolean availability;
-    private Integer stockAvailable;
+    private Boolean avaiability;
+    private Integer stockAvaiable;
     private List<AuthorDto> authors;
     private List<LanguageDto> languages;
 

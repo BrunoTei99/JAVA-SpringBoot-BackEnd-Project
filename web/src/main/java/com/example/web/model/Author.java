@@ -30,7 +30,7 @@ public class Author {
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST},
             mappedBy = "authors")
-    private List<Book> books = new ArrayList<>();
+    private List<Book> books;
 
 
 }

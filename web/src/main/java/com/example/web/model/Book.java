@@ -34,7 +34,7 @@ public class Book {
             name = "book_author",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name="author_id" ))
-    private List<Author> authors = new ArrayList<>();
+    private List<Author> authors;
 
 
     @ManyToMany(
@@ -44,6 +44,6 @@ public class Book {
             name = "book_language",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name="language_id" ))
-    private List<Language> languages = new ArrayList<>();
+    private List<Language> languages ;
 
 }

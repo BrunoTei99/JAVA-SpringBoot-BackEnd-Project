@@ -13,5 +13,4 @@ public class LanguageDto {
     private String name;
     private String code;
     private String nativeName;
-    private List<BookDto> books ;
 }

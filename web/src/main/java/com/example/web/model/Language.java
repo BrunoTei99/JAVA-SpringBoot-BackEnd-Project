@@ -25,6 +25,6 @@ public class Language {
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST},
             mappedBy = "languages")
-    private List<Book> books = new ArrayList<>();
+    private List<Book> books;
 
 }

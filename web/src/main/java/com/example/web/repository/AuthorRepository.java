@@ -1,4 +1,8 @@
 package com.example.web.repository;
 
-public interface AuthorRepository {
+import com.example.web.model.Author;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AuthorRepository extends JpaRepository<Author, Long> {
+
 }
