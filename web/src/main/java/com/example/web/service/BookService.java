@@ -58,5 +58,47 @@ public class BookService {
 
     }
 
+    public void addNewBook(BookDto bookDto){
+        try{
+            logger.info("adding a new book.");
+            Book book = bookMapper.bookDtoToBookModel(bookDto);
+            bookRepository.save(book);
+            logger.info("Book added successfully.");
+        }catch (Exception e) {
+            logger.error("An error occurred while adding a new book: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    public void updateBook(Long id, BookDto updatedBookDTO) {
+        try {
+            logger.info("Updating book with id {}.", id);
+            Book existingBook = bookRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Book not found"));
+            Book updatedBook = bookMapper.bookDtoToBookModel(updatedBookDTO);
+            updatedBook.setId(existingBook.getId());
+            bookRepository.save(updatedBook);
+            logger.info("Book with id {} updated successfully.", id);
+        } catch (Exception e) {
+            logger.error("An error occurred while updating book with id {}: {}", id, e.getMessage());
+            throw e;
+        }
+    }
+
+    public void deleteBook(Long id) {
+        try {
+            logger.info("Deleting book with id {}.", id);
+            Book existingBook = bookRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Book not found"));
+            bookRepository.delete(existingBook);
+            logger.info("Book with id {} deleted successfully.", id);
+        logger.info("deleted");
+        } catch (Exception e) {
+            logger.error("An error occurred while deleting book with id {}: {}", id, e.getMessage());
+            throw e;
+        }
+
+    }
+
 }
 
