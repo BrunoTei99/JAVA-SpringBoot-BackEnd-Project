@@ -83,19 +83,5 @@ public class LanguageService {
         }
     }
 
-    // Uncomment this method if you want to implement delete functionality
-    /*
-    public void deleteLanguage(Long id) {
-        LOGGER.info("Deleting language with ID {}", id);
-        try {
-            Language existingLanguage = languageRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Language not found"));
-            languageRepository.delete(existingLanguage);
-            LOGGER.info("Language with ID {} deleted successfully", id);
-        } catch (Exception e) {
-            LOGGER.error("Error occurred while deleting language with ID {}: {}", id, e.getMessage());
-            throw e;
-        }
-    }
-    */
+
 }
