@@ -8,10 +8,11 @@ import java.util.List;
 @Getter
 @Setter
 public class LanguageDto {
-
     private Long id;
     private String name;
     private String code;
     private String nativeName;
+    private List<BookDto> books;
+
 
 }
