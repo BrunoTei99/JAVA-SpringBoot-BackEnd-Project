@@ -2,6 +2,7 @@ package com.example.web.mappers;
 
 import com.example.web.model.Author;
 import com.example.web.model.dto.AuthorDto;
+import java.util.List;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
@@ -9,7 +10,10 @@ import org.mapstruct.Mapper;
 
 public interface AuthorMapper {
 
-    AuthorDto authorToAuthorDto(Author author);
+    AuthorDto authorModelToAuthorDto(Author author);
 
-    Author authorDtoToAuthor(AuthorDto authorDto);
+    Author authorDtoToAuthorModel(AuthorDto authorDto);
+
+    List<AuthorDto> authorsModelToAuthorsDto(List<Author> authors);
 }
+

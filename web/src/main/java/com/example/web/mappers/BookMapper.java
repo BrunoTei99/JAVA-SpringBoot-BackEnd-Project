@@ -10,13 +10,9 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface BookMapper {
-
     BookDto bookModelToBookDto(Book book);
-
     Book bookDtoToBookModel(BookDto bookDto);
-
     List<BookDto> booksModelToBooksDto (List<Book> books);
-
     List<Book> booksDtoToBookModel(List<BookDto> booksDto);
 
 }
