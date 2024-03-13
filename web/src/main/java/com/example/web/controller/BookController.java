@@ -71,16 +71,5 @@ public class BookController {
                 }
         }
 
-        @DeleteMapping("{id}")
-        public ResponseEntity<String> deleteBookById(@PathVariable Long id) {
-                logger.info("Request received to delete book with id {}.", id);
-                try {
-                        bookService.deleteBook(id);
-                        logger.info("Book with id {} deleted successfully.", id);
-                        return ResponseEntity.ok("Book deleted successfully");
-                } catch (IllegalArgumentException e) {
-                        logger.error("Error occurred while deleting book with id {}: {}", id, e.getMessage());
-                        return ResponseEntity.badRequest().body(e.getMessage());
-                }
-        }
+
 }

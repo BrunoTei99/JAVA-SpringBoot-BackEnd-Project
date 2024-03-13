@@ -72,13 +72,13 @@ public class BookControllerTest {
         verify(bookService, times(1)).updateBook(id, updatedBookDto);
     }
 
-    @Test
-    public void testDeleteBookById() {
-        Long id = 1L;
-
-        ResponseEntity<String> response = bookController.deleteBookById(id);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(bookService, times(1)).deleteBook(id);
-    }
+//    @Test
+//    public void testDeleteBookById() {
+//        Long id = 1L;
+//
+//        ResponseEntity<String> response = bookController.deleteBookById(id);
+//
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        verify(bookService, times(1)).deleteBook(id);
+//    }
 }
