@@ -1,6 +1,7 @@
 package com.example.web.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,7 @@ public class Language {
     private String code;
     private String nativeName;
 
+    @JsonIgnore
     @ManyToMany(
             mappedBy = "languages")
     private List<Book> books;

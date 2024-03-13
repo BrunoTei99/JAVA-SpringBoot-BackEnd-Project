@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/api/books")
+@RequestMapping("/api/book")
 public class BookController {
 
         private final BookService bookService;
@@ -50,7 +50,7 @@ public class BookController {
                 }
         }
 
-        @PostMapping("/add")
+        @PostMapping
         public ResponseEntity<String> addNewBook(@RequestBody BookDto bookDto) {
                 logger.info("Request received to add a new book.");
                 bookService.addNewBook(bookDto);
@@ -58,7 +58,7 @@ public class BookController {
                 return ResponseEntity.status(HttpStatus.CREATED).body("Book added successfully");
         }
 
-        @PutMapping("/update/{id}")
+        @PutMapping("{id}")
         public ResponseEntity<String> updateBook(@PathVariable Long id, @RequestBody BookDto updatedBookDTO) {
                 logger.info("Request received to update book with id {}.", id);
                 try {
@@ -71,7 +71,7 @@ public class BookController {
                 }
         }
 
-        @DeleteMapping("/delete/{id}")
+        @DeleteMapping("{id}")
         public ResponseEntity<String> deleteBookById(@PathVariable Long id) {
                 logger.info("Request received to delete book with id {}.", id);
                 try {

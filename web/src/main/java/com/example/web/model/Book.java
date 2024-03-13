@@ -1,6 +1,8 @@
 package com.example.web.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,7 +36,7 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name="author_id" ))
     private List<Author> authors;
 
-
+//    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "book_language",
