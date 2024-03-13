@@ -4,6 +4,7 @@ import com.example.web.mappers.LanguageMapper;
 import com.example.web.model.Language;
 import com.example.web.model.dto.LanguageDto;
 import com.example.web.repository.LanguageRepository;
+import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,45 +28,74 @@ public class LanguageService {
 
     public List<LanguageDto> getAllLanguages() {
         LOGGER.info("Fetching all languages from the database");
-        List<LanguageDto> languagesDto = languageMapper.languagesModelToLangaugesDto(languageRepository.findAll());
-        LOGGER.info("Retrieved {} languages", languagesDto.size());
-        return languagesDto;
+        try {
+            List<LanguageDto> languagesDto = languageMapper.languagesModelToLangaugesDto(languageRepository.findAll());
+            LOGGER.info("Retrieved {} languages", languagesDto.size());
+            return languagesDto;
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while fetching all languages: {}", e.getMessage());
+            throw e;
+        }
     }
 
     public LanguageDto getLanguageById(Long id) {
         LOGGER.info("Fetching language with ID {}", id);
-        Optional<Language> optionalLanguage = languageRepository.findById(id);
-        if (optionalLanguage.isPresent()) {
-            LOGGER.info("Language with ID {} found", id);
-            return languageMapper.languageModelToLanguageDto(optionalLanguage.get());
-        } else {
-            LOGGER.warn("Language with ID {} not found", id);
-            return null;
+        try {
+            Optional<Language> optionalLanguage = languageRepository.findById(id);
+            if (optionalLanguage.isPresent()) {
+                LOGGER.info("Language with ID {} found", id);
+                return languageMapper.languageModelToLanguageDto(optionalLanguage.get());
+            } else {
+                LOGGER.warn("Language with ID {} not found", id);
+                return null;
+            }
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while fetching language with ID {}: {}", id, e.getMessage());
+            throw e;
         }
     }
 
+    @Transactional
     public void updateLanguage(Long id, LanguageDto updatedLanguageDto) {
         LOGGER.info("Updating language with ID {}", id);
-        Language existingLanguage = languageRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Language not found"));
-        Language updatedLanguage = languageMapper.languageDtoToLanguageModel(updatedLanguageDto);
-        updatedLanguage.setId(existingLanguage.getId());
-        languageRepository.save(updatedLanguage);
-        LOGGER.info("Language with ID {} updated successfully", id);
+        try {
+            Language existingLanguage = languageRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Language not found"));
+            Language updatedLanguage = languageMapper.languageDtoToLanguageModel(updatedLanguageDto);
+            updatedLanguage.setId(existingLanguage.getId());
+            languageRepository.save(updatedLanguage);
+            LOGGER.info("Language with ID {} updated successfully", id);
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while updating language with ID {}: {}", id, e.getMessage());
+            throw e;
+        }
     }
 
     public void addNewLanguage(LanguageDto languageDto) {
         LOGGER.info("Adding a new language: {}", languageDto);
-        Language language = languageMapper.languageDtoToLanguageModel(languageDto);
-        languageRepository.save(language);
-        LOGGER.info("New language added successfully");
+        try {
+            Language language = languageMapper.languageDtoToLanguageModel(languageDto);
+            languageRepository.save(language);
+            LOGGER.info("New language added successfully");
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while adding a new language: {}", e.getMessage());
+            throw e;
+        }
     }
 
+    // Uncomment this method if you want to implement delete functionality
+    /*
     public void deleteLanguage(Long id) {
         LOGGER.info("Deleting language with ID {}", id);
-        Language existingLanguage = languageRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Language not found"));
-        languageRepository.delete(existingLanguage);
-        LOGGER.info("Language with ID {} deleted successfully", id);
+        try {
+            Language existingLanguage = languageRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Language not found"));
+            languageRepository.delete(existingLanguage);
+            LOGGER.info("Language with ID {} deleted successfully", id);
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while deleting language with ID {}: {}", id, e.getMessage());
+            throw e;
+        }
     }
+    */
 }

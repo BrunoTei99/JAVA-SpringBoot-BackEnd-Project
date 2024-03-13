@@ -27,35 +27,50 @@ public class BookController {
         @GetMapping
         public ResponseEntity<List<BookDto>> getAllBooks() {
                 logger.info("Request received to retrieve all books.");
-                List<BookDto> booksDto = bookService.getAllBooks();
-                if (booksDto.isEmpty()) {
-                        logger.info("No books found.");
-                        return ResponseEntity.notFound().build();
-                } else {
-                        logger.info("Books retrieved successfully.");
-                        return ResponseEntity.ok(booksDto);
+                try {
+                        List<BookDto> booksDto = bookService.getAllBooks();
+                        if (booksDto.isEmpty()) {
+                                logger.info("No books found.");
+                                return ResponseEntity.notFound().build();
+                        } else {
+                                logger.info("Books retrieved successfully.");
+                                return ResponseEntity.ok(booksDto);
+                        }
+                } catch (Exception e) {
+                        logger.error("Error occurred while retrieving all books: {}", e.getMessage());
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
                 }
         }
 
         @GetMapping("/{id}")
         public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
                 logger.info("Request received to retrieve book with id {}.", id);
-                BookDto bookDto = bookService.getBookById(id);
-                if (bookDto != null) {
-                        logger.info("Book with id {} retrieved successfully.", id);
-                        return ResponseEntity.ok(bookDto);
-                } else {
-                        logger.info("Book with id {} not found.", id);
-                        return ResponseEntity.notFound().build();
+                try {
+                        BookDto bookDto = bookService.getBookById(id);
+                        if (bookDto != null) {
+                                logger.info("Book with id {} retrieved successfully.", id);
+                                return ResponseEntity.ok(bookDto);
+                        } else {
+                                logger.info("Book with id {} not found.", id);
+                                return ResponseEntity.notFound().build();
+                        }
+                } catch (Exception e) {
+                        logger.error("Error occurred while retrieving book with id {}: {}", id, e.getMessage());
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
                 }
         }
 
         @PostMapping
         public ResponseEntity<String> addNewBook(@RequestBody BookDto bookDto) {
                 logger.info("Request received to add a new book.");
-                bookService.addNewBook(bookDto);
-                logger.info("Book added successfully.");
-                return ResponseEntity.status(HttpStatus.CREATED).body("Book added successfully");
+                try {
+                        bookService.addNewBook(bookDto);
+                        logger.info("Book added successfully.");
+                        return ResponseEntity.status(HttpStatus.CREATED).body("Book added successfully");
+                } catch (Exception e) {
+                        logger.error("Error occurred while adding a new book: {}", e.getMessage());
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                }
         }
 
         @PutMapping("{id}")
@@ -68,8 +83,9 @@ public class BookController {
                 } catch (IllegalArgumentException e) {
                         logger.error("Error occurred while updating book with id {}: {}", id, e.getMessage());
                         return ResponseEntity.badRequest().body(e.getMessage());
+                } catch (Exception e) {
+                        logger.error("Error occurred while updating book with id {}: {}", id, e.getMessage());
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
                 }
         }
-
-
 }

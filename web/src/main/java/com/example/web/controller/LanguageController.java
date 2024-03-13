@@ -40,15 +40,20 @@ public class LanguageController {
     public ResponseEntity<LanguageDto> getLanguageById(@PathVariable Long id) {
         LOGGER.info("GET request received to fetch language with id {}", id);
         LanguageDto languageDto = languageService.getLanguageById(id);
-        LOGGER.info("Returning language with id {}: {}", id, languageDto);
-        return ResponseEntity.ok(languageDto);
+        if (languageDto != null) {
+            LOGGER.info("Returning language with id {}: {}", id, languageDto);
+            return ResponseEntity.ok(languageDto);
+        } else {
+            LOGGER.warn("Language with id {} not found", id);
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> updateLanguage(@RequestBody LanguageDto updateBookDto, @PathVariable Long id) {
+    public ResponseEntity<String> updateLanguage(@RequestBody LanguageDto updatedLanguageDto, @PathVariable Long id) {
         LOGGER.info("PUT request received to update language with id {}", id);
         try {
-            languageService.updateLanguage(id, updateBookDto);
+            languageService.updateLanguage(id, updatedLanguageDto);
             LOGGER.info("Language with id {} updated successfully", id);
             return ResponseEntity.ok("Language updated successfully");
         } catch (IllegalArgumentException e) {
@@ -65,16 +70,19 @@ public class LanguageController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Language added successfully");
     }
 
-    //    @DeleteMapping("{id}")
-    //    public ResponseEntity<String> deleteLanguageById(@PathVariable Long id) {
-    //        LOGGER.info("DELETE request received to delete language with id {}", id);
-    //        try {
-    //            languageService.deleteLanguage(id);
-    //            LOGGER.info("Language with id {} deleted successfully", id);
-    //            return ResponseEntity.ok("Language deleted successfully");
-    //        } catch (IllegalArgumentException e) {
-    //            LOGGER.error("Failed to delete language with id {}: {}", id, e.getMessage());
-    //            return ResponseEntity.badRequest().body(e.getMessage());
-    //        }
-    //    }
+    // Uncomment this method if you want to implement delete functionality
+    /*
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteLanguageById(@PathVariable Long id) {
+        LOGGER.info("DELETE request received to delete language with id {}", id);
+        try {
+            languageService.deleteLanguage(id);
+            LOGGER.info("Language with id {} deleted successfully", id);
+            return ResponseEntity.ok("Language deleted successfully");
+        } catch (IllegalArgumentException e) {
+            LOGGER.error("Failed to delete language with id {}: {}", id, e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    */
 }
