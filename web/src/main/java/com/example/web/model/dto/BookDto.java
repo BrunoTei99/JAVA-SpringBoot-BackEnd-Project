@@ -17,9 +17,9 @@ public class BookDto {
     private BigDecimal price;
     private Boolean avaiability;
     private Integer stockAvaiable;
-//    @JsonIgnore
+    //    @JsonIgnore
     private List<AuthorDto> authors;
-//    @JsonIgnore
+    //    @JsonIgnore
     private List<LanguageDto> languages;
-
 }
+
