@@ -1,5 +1,4 @@
 package com.example.web.controller;
-
 import com.example.web.model.dto.BookDto;
 import com.example.web.service.BookService;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-class BookControllerTest {
+public class BookControllerTest {
 
     @Mock
     private BookService bookService;
@@ -25,53 +24,61 @@ class BookControllerTest {
     private BookController bookController;
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void getAllBooks_ReturnsBooks() {
+    public void testGetAllBooks() {
+        List<BookDto> mockBooks = new ArrayList<>();
+        when(bookService.getAllBooks()).thenReturn(mockBooks);
 
+        ResponseEntity<List<BookDto>> response = bookController.getAllBooks();
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        verify(bookService, times(1)).getAllBooks();
     }
 
     @Test
-    void getAllBooks_ReturnsNotFound_WhenNoBooks() {
+    public void testGetBookById() {
+        Long id = 1L;
+        BookDto mockBook = new BookDto();
+        when(bookService.getBookById(id)).thenReturn(mockBook);
 
+        ResponseEntity<BookDto> response = bookController.getBookById(id);
 
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(bookService, times(1)).getBookById(id);
     }
 
     @Test
-    void getBookById_ReturnsBook_WhenExists() {
+    public void testAddNewBook() {
+        BookDto bookDto = new BookDto();
 
+        ResponseEntity<String> response = bookController.addNewBook(bookDto);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        verify(bookService, times(1)).addNewBook(bookDto);
     }
 
     @Test
-    void getBookById_ReturnsNotFound_WhenNotExists() {
+    public void testUpdateBook() {
+        Long id = 1L;
+        BookDto updatedBookDto = new BookDto();
 
+        ResponseEntity<String> response = bookController.updateBook(id, updatedBookDto);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(bookService, times(1)).updateBook(id, updatedBookDto);
     }
 
-    @Test
-    void addNewBook_ReturnsCreated_WhenSuccessful() {
-
-
-    }
-
-    @Test
-    void addNewBook_ReturnsInternalServerError_WhenServiceFails() {
-
-    }
-
-    @Test
-    void updateBook_ReturnsOk_WhenSuccessful() {
-
-    }
-
-    @Test
-    void updateBook_ReturnsBadRequest_WhenIllegalArgumentExceptionThrown() {
-
-    }
-
-    @Test
-    void updateBook_ReturnsInternalServerError_WhenServiceFails() {
-
-    }}
+//    @Test
+//    public void testDeleteBookById() {
+//        Long id = 1L;
+//
+//        ResponseEntity<String> response = bookController.deleteBookById(id);
+//
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        verify(bookService, times(1)).deleteBook(id);
+//    }
+}
