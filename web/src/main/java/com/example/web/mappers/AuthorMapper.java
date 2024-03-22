@@ -2,18 +2,19 @@ package com.example.web.mappers;
 
 import com.example.web.model.Author;
 import com.example.web.model.dto.AuthorDto;
-import java.util.List;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
+
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 
 public interface AuthorMapper {
 
-    AuthorDto authorModelToAuthorDto(Author author);
 
-    Author authorDtoToAuthorModel(AuthorDto authorDto);
+    AuthorDto authorToAuthorDto(Author author);
 
-    List<AuthorDto> authorsModelToAuthorsDto(List<Author> authors);
+    Author authorDtoToAuthor(AuthorDto authorDto);
 }
-

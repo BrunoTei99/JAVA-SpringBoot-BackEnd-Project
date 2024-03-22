@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/api/book")
+@RequestMapping("/api/books")
 public class BookController {
 
         private final BookService bookService;
@@ -27,53 +27,38 @@ public class BookController {
         @GetMapping
         public ResponseEntity<List<BookDto>> getAllBooks() {
                 logger.info("Request received to retrieve all books.");
-                try {
-                        List<BookDto> booksDto = bookService.getAllBooks();
-                        if (booksDto.isEmpty()) {
-                                logger.info("No books found.");
-                                return ResponseEntity.notFound().build();
-                        } else {
-                                logger.info("Books retrieved successfully.");
-                                return ResponseEntity.ok(booksDto);
-                        }
-                } catch (Exception e) {
-                        logger.error("Error occurred while retrieving all books: {}", e.getMessage());
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                List<BookDto> booksDto = bookService.getAllBooks();
+                if (booksDto.isEmpty()) {
+                        logger.info("No books found.");
+                        return ResponseEntity.notFound().build();
+                } else {
+                        logger.info("Books retrieved successfully.");
+                        return ResponseEntity.ok(booksDto);
                 }
         }
 
         @GetMapping("/{id}")
         public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
                 logger.info("Request received to retrieve book with id {}.", id);
-                try {
-                        BookDto bookDto = bookService.getBookById(id);
-                        if (bookDto != null) {
-                                logger.info("Book with id {} retrieved successfully.", id);
-                                return ResponseEntity.ok(bookDto);
-                        } else {
-                                logger.info("Book with id {} not found.", id);
-                                return ResponseEntity.notFound().build();
-                        }
-                } catch (Exception e) {
-                        logger.error("Error occurred while retrieving book with id {}: {}", id, e.getMessage());
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                BookDto bookDto = bookService.getBookById(id);
+                if (bookDto != null) {
+                        logger.info("Book with id {} retrieved successfully.", id);
+                        return ResponseEntity.ok(bookDto);
+                } else {
+                        logger.info("Book with id {} not found.", id);
+                        return ResponseEntity.notFound().build();
                 }
         }
 
-        @PostMapping
+        @PostMapping("/add")
         public ResponseEntity<String> addNewBook(@RequestBody BookDto bookDto) {
                 logger.info("Request received to add a new book.");
-                try {
-                        bookService.addNewBook(bookDto);
-                        logger.info("Book added successfully.");
-                        return ResponseEntity.status(HttpStatus.CREATED).body("Book added successfully");
-                } catch (Exception e) {
-                        logger.error("Error occurred while adding a new book: {}", e.getMessage());
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                }
+                bookService.addNewBook(bookDto);
+                logger.info("Book added successfully.");
+                return ResponseEntity.status(HttpStatus.CREATED).body("Book added successfully");
         }
 
-        @PutMapping("{id}")
+        @PutMapping("/update/{id}")
         public ResponseEntity<String> updateBook(@PathVariable Long id, @RequestBody BookDto updatedBookDTO) {
                 logger.info("Request received to update book with id {}.", id);
                 try {
@@ -83,9 +68,19 @@ public class BookController {
                 } catch (IllegalArgumentException e) {
                         logger.error("Error occurred while updating book with id {}: {}", id, e.getMessage());
                         return ResponseEntity.badRequest().body(e.getMessage());
-                } catch (Exception e) {
-                        logger.error("Error occurred while updating book with id {}: {}", id, e.getMessage());
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                }
+        }
+
+        @DeleteMapping("/delete/{id}")
+        public ResponseEntity<String> deleteBookById(@PathVariable Long id) {
+                logger.info("Request received to delete book with id {}.", id);
+                try {
+                        bookService.deleteBook(id);
+                        logger.info("Book with id {} deleted successfully.", id);
+                        return ResponseEntity.ok("Book deleted successfully");
+                } catch (IllegalArgumentException e) {
+                        logger.error("Error occurred while deleting book with id {}: {}", id, e.getMessage());
+                        return ResponseEntity.badRequest().body(e.getMessage());
                 }
         }
 }

@@ -1,5 +1,6 @@
 package com.example.web.model.dto;
 
+import com.example.web.model.Author;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,9 +18,7 @@ public class BookDto {
     private BigDecimal price;
     private Boolean avaiability;
     private Integer stockAvaiable;
-    //    @JsonIgnore
     private List<AuthorDto> authors;
-    //    @JsonIgnore
     private List<LanguageDto> languages;
-}
 
+}

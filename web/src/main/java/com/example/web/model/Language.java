@@ -1,7 +1,6 @@
 package com.example.web.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +27,6 @@ public class Language {
     private String code;
     private String nativeName;
 
-    @JsonIgnore
     @ManyToMany(
             mappedBy = "languages")
     private List<Book> books;
