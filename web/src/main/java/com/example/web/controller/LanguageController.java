@@ -1,5 +1,6 @@
 package com.example.web.controller;
 
+import com.example.web.model.Language;
 import com.example.web.model.dto.LanguageDto;
 import com.example.web.service.LanguageService;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -47,6 +49,11 @@ public class LanguageController {
             LOGGER.warn("Language with id {} not found", id);
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/language/id1")
+    public Collection<Language> getLanguageWithId1() {
+        return languageService.findLanguageWithId1();
     }
 
     @PutMapping("{id}")

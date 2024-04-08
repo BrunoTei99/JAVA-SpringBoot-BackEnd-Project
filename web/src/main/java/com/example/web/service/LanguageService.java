@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +54,10 @@ public class LanguageService {
             LOGGER.error("Error occurred while fetching language with ID {}: {}", id, e.getMessage());
             throw e;
         }
+    }
+
+    public Collection<Language> findLanguageWithId1() {
+        return languageRepository.findLanguageWithId1();
     }
 
     @Transactional
